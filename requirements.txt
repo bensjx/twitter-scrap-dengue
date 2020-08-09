@@ -1,0 +1,10 @@
+regex
+textblob
+googletrans
+psycopg2  
+numpy
+pandas
+tweepy
+plotly
+nltk
+dash
