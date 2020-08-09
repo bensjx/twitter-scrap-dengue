@@ -33,10 +33,13 @@ class MyStreamListener(tweepy.StreamListener):
         mycursor.execute(sql, val)
         conn.commit()
 
-        # Clean up database: delete data older than 10 days
-        delete_query = "DELETE FROM {0} WHERE created_at < NOW() - INTERVAL 10 DAY;".format(
-            "dengue"
-        )
+        # # Clean up database: delete data older than 10 days
+        # delete_query = "DELETE FROM {0} WHERE created_at < NOW() - INTERVAL 10 DAY;".format(
+        #     "dengue"
+        # )
+
+        delete_query = "DELETE FROM {0} WHERE created_at < (now() - '10 days'::interval);".format(
+            "dengue")
 
         mycursor.execute(delete_query)
         conn.commit()
