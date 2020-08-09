@@ -1,6 +1,5 @@
 import re
 import tweepy
-import mysql.connector
 import pandas as pd
 from textblob import TextBlob
 from googletrans import Translator
