@@ -32,7 +32,7 @@ class MyStreamListener(tweepy.StreamListener):
         #     "dengue"
         # )
 
-        delete_query = "DELETE FROM {0} WHERE created_at < (now() - '1 days'::interval);".format(
+        delete_query = "DELETE FROM {} WHERE created_at < (now() - interval '7days')".format(
             "dengue"
         )
 
