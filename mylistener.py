@@ -42,13 +42,17 @@ class MyStreamListener(tweepy.StreamListener):
         #     "dengue"
         # )
 
-        delete_query = "DELETE FROM {0} WHERE created_at < (now() - '5 days'::interval);".format(
-            "dengue"
-        )
+        try:
+            delete_query = "DELETE FROM {0} WHERE created_at < (now() - '5 days'::interval);".format(
+                "dengue"
+            )
 
-        mycursor.execute(delete_query)
-        conn.commit()
-        mycursor.close()
+            mycursor.execute(delete_query)
+            conn.commit()
+            mycursor.close()
+        except:  # rollback if there is any error
+            mycursor.execute("ROLLBACK")
+            conn.commit()
 
         # # Store all data in MySQL
         # if mydb.is_connected():
