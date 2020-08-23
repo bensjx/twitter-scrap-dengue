@@ -26,33 +26,27 @@ class MyStreamListener(tweepy.StreamListener):
         polarity = sentiment.polarity
 
         mycursor = conn.cursor()
-        sql = "INSERT INTO {} (id_str, created_at, clean_text, text, polarity) VALUES (%s, %s, %s, %s, %s)".format(
-            parameters.TABLE_NAME
-        )
-        val = (id_str, created_at, clean_text, text, polarity)
-
-        try:
-            mycursor.execute(sql, val)
-            conn.commit()
-        except:
-            pass
 
         # # Clean up database: delete data older than 10 days
         # delete_query = "DELETE FROM {0} WHERE created_at < NOW() - INTERVAL 10 DAY;".format(
         #     "dengue"
         # )
 
-        try:
-            delete_query = "DELETE FROM {0} WHERE created_at < (now() - '5 days'::interval);".format(
-                "dengue"
-            )
+        delete_query = "DELETE FROM {0} WHERE created_at < (now() - '5 days'::interval);".format(
+            "dengue"
+        )
 
-            mycursor.execute(delete_query)
-            conn.commit()
-            mycursor.close()
-        except:  # rollback if there is any error
-            mycursor.execute("ROLLBACK")
-            conn.commit()
+        mycursor.execute(delete_query)
+        conn.commit()
+        mycursor.close()
+
+        # Insert new data into database
+        sql = "INSERT INTO {} (id_str, created_at, clean_text, text, polarity) VALUES (%s, %s, %s, %s, %s)".format(
+            parameters.TABLE_NAME
+        )
+        val = (id_str, created_at, clean_text, text, polarity)
+        mycursor.execute(sql, val)
+        conn.commit()
 
         # # Store all data in MySQL
         # if mydb.is_connected():
