@@ -38,7 +38,6 @@ class MyStreamListener(tweepy.StreamListener):
 
         mycursor.execute(delete_query)
         conn.commit()
-        mycursor.close()
 
         # Insert new data into database
         sql = "INSERT INTO {} (id_str, created_at, clean_text, text, polarity) VALUES (%s, %s, %s, %s, %s)".format(
@@ -47,6 +46,7 @@ class MyStreamListener(tweepy.StreamListener):
         val = (id_str, created_at, clean_text, text, polarity)
         mycursor.execute(sql, val)
         conn.commit()
+        mycursor.close()
 
         # # Store all data in MySQL
         # if mydb.is_connected():
