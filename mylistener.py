@@ -33,16 +33,11 @@ class MyStreamListener(tweepy.StreamListener):
         # )
 
         delete_query = "DELETE FROM {} WHERE created_at < (now() - interval '7days')".format(
-            "dengue"
+            parameters.TABLE_NAME
         )
-
+        delete_query = "DELETE * FROM dengue"
         mycursor.execute(delete_query)
         conn.commit()
-
-        calc_rows = "SELECT COUNT(*) FROM dengue"
-        mycursor.execute(calc_rows)
-        results = mycursor.fetchone()
-        print(results)
 
         # Insert new data into database
         sql = "INSERT INTO {} (id_str, created_at, clean_text, text, polarity) VALUES (%s, %s, %s, %s, %s)".format(
