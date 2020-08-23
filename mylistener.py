@@ -39,6 +39,11 @@ class MyStreamListener(tweepy.StreamListener):
         mycursor.execute(delete_query)
         conn.commit()
 
+        calc_rows = "SELECT COUNT(*) FROM dengue"
+        mycursor.execute(calc_rows)
+        results = mycursor.fetchone()
+        print(results)
+
         # Insert new data into database
         sql = "INSERT INTO {} (id_str, created_at, clean_text, text, polarity) VALUES (%s, %s, %s, %s, %s)".format(
             parameters.TABLE_NAME
